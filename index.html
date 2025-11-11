@@ -144,6 +144,93 @@
       </div>
     </div>
   </div>
+  <h1>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h1>
+  <p><strong>परीक्षा दिनांक:</strong> 19 नवम्बर 2025</p>
+  <p><strong>परीक्षा केन्द्र:</strong> JJ College, झुमरी तिलैया, कोडरमा</p>
+  <p><strong>उपस्थिति समय:</strong> 9:30 से 10:30 बजे तक</p>
+  <p><strong>परीक्षा समय:</strong> 11:00 से 12:00 बजे तक</p>
+  <hr>
+
+  <form name="submit-to-google-sheet">
+    <input name="नाम" placeholder="नाम" required>
+    <input name="शिक्षा" placeholder="शिक्षा" required>
+    <input name="विद्यालय / कॉलेज" placeholder="विद्यालय / कॉलेज" required>
+    <input name="लिंग" placeholder="लिंग (पुरुष/महिला)" required>
+    <input name="ईमेल" type="email" placeholder="ईमेल" required>
+    <input name="मोबाइल नंबर" type="tel" placeholder="मोबाइल नंबर" required>
+    <textarea name="पता" placeholder="पता" required></textarea>
+    <input name="लेनदेन आईडी" placeholder="ट्रांजेक्शन आईडी (20 रुपये भुगतान के बाद)" required>
+    <button type="submit">सबमिट करें</button>
+    <p class="success">✅ आपका पंजीकरण सफल हुआ! प्रावेश पत्र डाउनलोड करें।</p>
+  </form>
+
+  <script>
+    // === TERA REAL APPS SCRIPT URL ===
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz1H3Wuuw3zAOjNQ1KD7xSPY5qJnNKYLbUtQoas5-kCM1RgBHFRjid37_H_nKW42sF1Qg/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz1H3Wuuw3zAOjNQ1KD7xSPY5qJnNKYLbUtQoas5-kCM1RgBHFRjid37_H_nKW42sF1Qg/exec";
+    const form = document.forms['submit-to-google-sheet'];
+    const success = document.querySelector('.success');
+
+    const form = document.getElementById('examForm');
+    const slip = document.getElementById('slip');
+    const slipDetails = document.getElementById('slipDetails');
+
+    form.addEventListener('submit', async function(e){
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      // send JSON to Apps Script (Apps Script should parse JSON as earlier)
+      try {
+        const res = await fetch(scriptURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: data.naam || '',
+            edu: data.siksha || '',
+            school: data.school || '',
+            gender: data.ling || '',
+            email: data.email || '',
+            mobile: data.mobile || '',
+            address: data.pataa || '',
+            txnid: data.txnid || ''
+          })
+        });
+        if (!res.ok) throw new Error('Server error ' + res.status);
+        // success — show printable slip (without Transaction ID as requested)
+        form.style.display = 'none';
+        slip.style.display = 'block';
+        slipDetails.innerHTML = `
+          <p><b>नाम:</b> ${escapeHtml(data.naam)}</p>
+          <p><b>शिक्षा:</b> ${escapeHtml(data.siksha)}</p>
+          <p><b>विद्यालय / कॉलेज:</b> ${escapeHtml(data.school)}</p>
+          <p><b>लिंग:</b> ${escapeHtml(data.ling)}</p>
+          <p><b>मोबाइल नंबर:</b> ${escapeHtml(data.mobile)}</p>
+          <p><b>पता:</b> ${escapeHtml(data.pataa)}</p>
+        `;
+        window.scrollTo(0,0);
+      } catch(err) {
+        console.error(err);
+        alert('त्रुटि: डेटा भेजा नहीं जा सका — कृपया कुछ समय के बाद प्रयास करें या script URL/permissions चेक करें।');
+      }
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+        success.style.display = 'block';
+        form.reset();
+      })
+      .catch(error => alert('डेटा भेजा नहीं जा सका। कृपया कुछ समय बाद पुनः प्रयास करें।'));
+    });
+
+    function resetPage(){
+      form.reset();
+      form.style.display = 'block';
+      slip.style.display = 'none';
+      slipDetails.innerHTML = '';
+      window.scrollTo(0,0);
+    }
+
+    function escapeHtml(text){
+      if(!text) return '';
+      return text.replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]); });
     }
   </script>
 </body>

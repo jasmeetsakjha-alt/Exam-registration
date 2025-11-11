@@ -5,33 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</title>
   <style>
-    body { font-family: "Noto Sans Devanagari", sans-serif; background: #f7f8fa; margin: 0; padding: 20px; }
-    .container { max-width: 680px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    h2 { text-align: center; color: #1a237e; margin-bottom: 10px; }
+    body { font-family: "Noto Sans Devanagari", sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }
+    .container { max-width: 700px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    h2 { text-align: center; color: #1a237e; margin: 0 0 10px; }
     label { display:block; margin-top:12px; font-weight:600; }
-    input, select, textarea { width:100%; padding:10px; margin-top:6px; border:1px solid #d0d6df; border-radius:8px; font-size:15px; }
-    button { margin-top:18px; width:100%; padding:12px; border:none; border-radius:8px; background:#1565c0; color:#fff; font-size:16px; cursor:pointer; }
-    button.secondary { background:#e8eefb; color:#15579b; border:1px solid #cfdff6; }
-    .qr-section { text-align:center; margin-top:20px; }
-    .slip { display:none; margin-top:24px; border:2px dashed #1a237e; padding:18px; border-radius:10px; background:#fff; color:#111; }
-    .slip h3 { text-align:center; margin:0 0 8px; color:#1a237e; }
+    input, select, textarea {
+      width:100%; padding:10px; margin-top:6px;
+      border:1px solid #d0d6df; border-radius:8px;
+      box-sizing:border-box; font-size:15px;
+    }
+    button {
+      margin-top:18px; width:100%; padding:12px;
+      border:none; border-radius:8px;
+      background:#1565c0; color:#fff; font-size:16px;
+      cursor:pointer;
+    }
+    button:hover { background:#0d47a1; }
     .muted { color:#546e7a; font-size:14px; text-align:center; }
     .note { background:#fff8e1; padding:10px; border-radius:8px; margin-top:10px; color:#7a4d00; }
+    .slip {
+      display:none; margin-top:24px; border:2px dashed #1a237e;
+      padding:18px; border-radius:10px; background:#fff; color:#111;
+    }
+    .slip h3 { text-align:center; margin:0 0 8px; color:#1a237e; }
     @media print { .no-print { display:none } .container { box-shadow:none; border-radius:0 } }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h2>
-    <div class="muted">परीक्षा तिथि: 19/11/2025 · उपस्थिति: 9:30–10:30 · परीक्षा: 11:00–12:00</div>
+    <div class="muted">📅 परीक्षा तिथि: 19/11/2025 · ⏰ उपस्थिति: 9:30–10:30 · परीक्षा: 11:00–12:00</div>
 
+    <!-- === Registration Form === -->
     <form id="examForm" class="no-print">
       <label>नाम:</label>
       <input type="text" name="naam" required>
+
       <label>शिक्षा:</label>
       <input type="text" name="siksha" required>
+
       <label>स्कूल / कॉलेज:</label>
       <input type="text" name="school" required>
+
       <label>लिंग:</label>
       <select name="ling" required>
         <option value="">चुनें</option>
@@ -39,46 +54,78 @@
         <option value="महिला">महिला</option>
         <option value="अन्य">अन्य</option>
       </select>
+
       <label>ईमेल (यदि हो):</label>
       <input type="email" name="email">
+
       <label>मोबाइल नंबर:</label>
       <input type="tel" name="mobile" required>
+
       <label>पता:</label>
       <textarea name="pataa" rows="2" required></textarea>
 
-      <div class="qr-section">
-        <p class="muted">₹20 का भुगतान करें — UPI ID: <b>9798789203@ptyes</b></p>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=9798789203@ptyes&pn=Hamar%20Birsa%20Exam&am=20&cu=INR" width="180">
-        <label style="margin-top:12px">लेन-देन संख्या (Transaction ID)</label>
-        <input type="text" name="txnid" required>
-        <div class="note">नोट: केवल सत्यापित भुगतान पर ही प्रवेश पत्र मान्य माना जाएगा।</div>
+      <div class="muted" style="margin-top:15px;">
+        ₹20 का भुगतान करें — <b>UPI ID: 9798789203@ptyes</b>
+      </div>
+      <div style="text-align:center;margin-top:8px;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=9798789203@ptyes&pn=Hamar%20Birsa%20Exam&am=20&cu=INR" width="160" alt="QR">
       </div>
 
-      <button type="submit">जमा करें और प्रवेश पत्र पाएं</button>
+      <label style="margin-top:12px;">लेन-देन संख्या (Transaction ID)</label>
+      <input type="text" name="txnid" required>
+
+      <div class="note">⚠️ केवल सत्यापित भुगतान पर ही प्रवेश पत्र मान्य माना जाएगा।</div>
+
+      <button type="submit">जमा करें और प्रवेश पत्र देखें</button>
     </form>
 
-    <!-- प्रवेश पत्र -->
+    <!-- === Admit Card Slip === -->
     <div id="slip" class="slip">
       <h3>प्रवेश पत्र</h3>
-      <div id="slipDetails" style="line-height:1.6; font-size:15px"></div>
+      <p><b>परीक्षा नाम:</b> हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</p>
+      <p><b>केंद्र:</b> JJ College, झुमरी तिलैया, कोडरमा</p>
+      <p><b>परीक्षा तिथि:</b> 19 नवम्बर 2025</p>
+      <p><b>उपस्थिति:</b> 9:30–10:30</p>
+      <p><b>परीक्षा समय:</b> 11:00–12:00</p>
+      <hr>
+      <div id="slipDetails"></div>
+
       <div style="margin-top:12px;font-size:13px" class="muted">
         निर्देश: यह पर्ची अनिवार्य है — प्रिंट आउट और वैध पहचान पत्र साथ लाना आवश्यक है।
       </div>
+
       <div class="no-print" style="margin-top:12px;">
-        <button onclick="window.print()">प्रिंट करें</button>
-        <button class="secondary" onclick="resetPage()">नया पंजीकरण</button>
+        <button onclick="window.print()">🖨️ प्रिंट करें</button>
+        <button class="no-print" onclick="resetPage()">🔄 नया पंजीकरण</button>
       </div>
     </div>
   </div>
 
   <script>
+    // 🟢 अपने Google Apps Script URL से बदलो ↓
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyB-oeX3z21YrDBV0X6quoYoiJTtWw4UHdhoT-GqVqsexTWt2VuZRRv_7FFLYFviMtj/exec";
+
     const form = document.getElementById('examForm');
     const slip = document.getElementById('slip');
     const slipDetails = document.getElementById('slipDetails');
 
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(form).entries());
+
+      // === 1️⃣ Save data to Google Sheet ===
+      try {
+        const res = await fetch(scriptURL, {
+          method: 'POST',
+          body: new FormData(form)
+        });
+        if (!res.ok) throw new Error('Network error');
+      } catch(err) {
+        alert("❌ डेटा Google शीट में नहीं जा सका, पर प्रवेश पत्र दिखाया जा रहा है।");
+        console.error(err);
+      }
+
+      // === 2️⃣ Show Admit Card ===
       slipDetails.innerHTML = `
         <p><b>नाम:</b> ${escapeHtml(data.naam)}</p>
         <p><b>शिक्षा:</b> ${escapeHtml(data.siksha)}</p>
@@ -96,11 +143,14 @@
       form.reset();
       form.style.display = 'block';
       slip.style.display = 'none';
+      slipDetails.innerHTML = '';
     }
 
     function escapeHtml(text){
       if(!text) return '';
-      return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]));
+      return text.replace(/[&<>"']/g, m => (
+        {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]
+      ));
     }
   </script>
 </body>

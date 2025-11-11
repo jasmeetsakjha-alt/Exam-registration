@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</title>
   <style>
+    body { font-family: "Noto Sans Devanagari", sans-serif; background: #f7f8fa; margin: 0; padding: 0; }
+    .container { max-width: 680px; margin: 30px auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    h2 { text-align: center; color: #1a237e; margin: 0 0 10px; }
+    label { display:block; margin-top:12px; font-weight:600; }
+    input, select, textarea { width:100%; padding:10px; margin-top:6px; border:1px solid #d0d6df; border-radius:8px; box-sizing:border-box; font-size:15px; }
+    button { margin-top:18px; width:100%; padding:12px; border:none; border-radius:8px; background:#1565c0; color:#fff; font-size:16px; cursor:pointer; }
+    button.secondary { background:#e8eefb; color:#15579b; border:1px solid #cfdff6; }
+    .qr-section { text-align:center; margin-top:20px; }
+    .slip { display:none; margin-top:24px; border:2px dashed #1a237e; padding:18px; border-radius:10px; background:#fff; color:#111; }
+    .slip h3 { text-align:center; margin:0 0 8px; color:#1a237e; }
+    .muted { color:#546e7a; font-size:14px; }
+    .note { background:#fff8e1; padding:10px; border-radius:8px; margin-top:10px; color:#7a4d00; }
+    @media print { .no-print { display:none } .container { box-shadow:none; border-radius:0 } }
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(to right, #f9f9f9, #e8f5e9);
@@ -49,6 +62,88 @@
   </style>
 </head>
 <body>
+  <div class="container">
+    <h2>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h2>
+    <div class="muted" style="text-align:center">परीक्षा तिथि: 19/11/2025 · उपस्थिति: 9:30–10:30 · परीक्षा: 11:00–12:00</div>
+
+    <form id="examForm" class="no-print">
+      <label>नाम:</label>
+      <input type="text" name="naam" required>
+
+      <label>शिक्षा:</label>
+      <input type="text" name="siksha" required>
+
+      <label>स्कूल / कॉलेज:</label>
+      <input type="text" name="school" required>
+
+      <label>लिंग:</label>
+      <select name="ling" required>
+        <option value="">चुनें</option>
+        <option value="पुरुष">पुरुष</option>
+        <option value="महिला">महिला</option>
+        <option value="अन्य">अन्य</option>
+      </select>
+
+      <label>ईमेल (यदि हो):</label>
+      <input type="email" name="email">
+
+      <label>मोबाइल नंबर:</label>
+      <input type="tel" name="mobile" required>
+
+      <label>पता:</label>
+      <textarea name="pataa" rows="2" required></textarea>
+
+      <div class="qr-section">
+        <p class="muted">कृपया ₹20 का भुगतान करें — नीचे QR स्कैन करें या UPI ID से भेजें</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=9798789203@ptyes&pn=Hamar%20Birsa%20Exam&am=20&cu=INR" alt="QR" width="180">
+        <div class="muted" style="margin-top:8px"><b>UPI ID:</b> 9798789203@ptyes</div>
+
+        <label style="margin-top:12px">लेन-देन संख्या (Transaction ID) — भरें (यह स्लिप पर नहीं दिखेगा)</label>
+        <input type="text" name="txnid" required>
+
+        <div class="note">नोट: केवल सत्यापित भुगतान पर ही प्रवेश पत्र मान्य माना जाएगा। परीक्षा केंद्र पर भुगतान सत्यापित किया जाएगा।</div>
+      </div>
+
+      <button type="submit">जमा करें और प्रवेश पत्र पाएं</button>
+    </form>
+
+    <!-- Slip (printable) -->
+    <div id="slip" class="slip">
+      <h3>प्रवेश पत्र</h3>
+
+      <!-- design arranged to match the photo-style "side letter size" look -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div style="flex:1">
+          <p style="margin:6px 0"><b>परीक्षा नाम:</b> हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</p>
+          <p style="margin:6px 0"><b>परीक्षा तिथि:</b> 19/11/2025</p>
+          <p style="margin:6px 0"><b>उपस्थिति समय:</b> 9:30 से 10:30</p>
+          <p style="margin:6px 0"><b>परीक्षा समय:</b> 11:00 से 12:00</p>
+          <p style="margin:6px 0"><b>केंद्र:</b> JJ College, झुमरी तिलैया, कोडरमा</p>
+        </div>
+        <div style="width:160px;text-align:right">
+          <div class="muted" style="font-size:13px">संपर्क:</div>
+          <div style="font-weight:700;margin-top:6px">+91 97987 89203</div>
+          <div style="margin-top:4px">+91 91421 30104</div>
+          <div style="margin-top:4px">+91 70047 03711</div>
+        </div>
+      </div>
+
+      <hr style="border:none;border-top:1px solid #ddd;margin:10px 0;">
+
+      <div id="slipDetails" style="line-height:1.6; font-size:15px">
+        <!-- populated dynamically -->
+      </div>
+
+      <div style="margin-top:12px;font-size:13px" class="muted">
+        निर्देश: यह पर्ची अनिवार्य है — प्रिंट आउट और वैध पहचान पत्र साथ लाना आवश्यक है।
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px" class="no-print">
+        <button onclick="window.print()">प्रिंट करें</button>
+        <button class="secondary" onclick="resetPage()">नया पंजीकरण</button>
+      </div>
+    </div>
+  </div>
   <h1>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h1>
   <p><strong>परीक्षा दिनांक:</strong> 19 नवम्बर 2025</p>
   <p><strong>परीक्षा केन्द्र:</strong> JJ College, झुमरी तिलैया, कोडरमा</p>
@@ -70,12 +165,53 @@
   </form>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwspaXy665mhYNlcBabEOcO9fJdWn8RsHdirfCIoh5S56PsIdwL4ytqe7J8STWC-wyL/exec";
+    // === TERA REAL APPS SCRIPT URL ===
+    const scriptURL = "https://script.google.com/macros/s/AKfycby4PyDKKa8-CaEQtD6H3_WMeACTaC7I4ZiLZOltWpJ1rbn5K_TPc5cMD2GLYnodJzEgwg/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzcrPyjC1Scc4n4liIAgmwlK18u54n7cpqRfZrSrKmWzBPW31hSyLCeMl2yOxnWs2szHQ/exec";
     const form = document.forms['submit-to-google-sheet'];
     const success = document.querySelector('.success');
 
+    const form = document.getElementById('examForm');
+    const slip = document.getElementById('slip');
+    const slipDetails = document.getElementById('slipDetails');
+
+    form.addEventListener('submit', async function(e){
     form.addEventListener('submit', e => {
       e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      // send JSON to Apps Script (Apps Script should parse JSON as earlier)
+      try {
+        const res = await fetch(scriptURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: data.naam || '',
+            edu: data.siksha || '',
+            school: data.school || '',
+            gender: data.ling || '',
+            email: data.email || '',
+            mobile: data.mobile || '',
+            address: data.pataa || '',
+            txnid: data.txnid || ''
+          })
+        });
+        if (!res.ok) throw new Error('Server error ' + res.status);
+        // success — show printable slip (without Transaction ID as requested)
+        form.style.display = 'none';
+        slip.style.display = 'block';
+        slipDetails.innerHTML = `
+          <p><b>नाम:</b> ${escapeHtml(data.naam)}</p>
+          <p><b>शिक्षा:</b> ${escapeHtml(data.siksha)}</p>
+          <p><b>विद्यालय / कॉलेज:</b> ${escapeHtml(data.school)}</p>
+          <p><b>लिंग:</b> ${escapeHtml(data.ling)}</p>
+          <p><b>मोबाइल नंबर:</b> ${escapeHtml(data.mobile)}</p>
+          <p><b>पता:</b> ${escapeHtml(data.pataa)}</p>
+        `;
+        window.scrollTo(0,0);
+      } catch(err) {
+        console.error(err);
+        alert('त्रुटि: डेटा भेजा नहीं जा सका — कृपया कुछ समय के बाद प्रयास करें या script URL/permissions चेक करें।');
+      }
       fetch(scriptURL, { method: 'POST', body: new FormData(form)})
       .then(response => {
         success.style.display = 'block';
@@ -83,6 +219,19 @@
       })
       .catch(error => alert('डेटा भेजा नहीं जा सका। कृपया कुछ समय बाद पुनः प्रयास करें।'));
     });
+
+    function resetPage(){
+      form.reset();
+      form.style.display = 'block';
+      slip.style.display = 'none';
+      slipDetails.innerHTML = '';
+      window.scrollTo(0,0);
+    }
+
+    function escapeHtml(text){
+      if(!text) return '';
+      return text.replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]); });
+    }
   </script>
 </body>
 </html>

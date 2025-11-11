@@ -7,48 +7,62 @@
   <style>
     body {
       font-family: "Noto Sans Devanagari", sans-serif;
-      background-color: #f5f5f5;
-      color: #222;
-      text-align: center;
+      background: #f7f8fa;
       margin: 0;
       padding: 0;
     }
     .container {
-      background: white;
-      width: 90%;
-      max-width: 500px;
+      max-width: 480px;
       margin: 30px auto;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
     }
     input, select, textarea {
-      width: 90%;
+      width: 100%;
       padding: 10px;
-      margin: 8px;
+      margin-top: 6px;
       border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
+      border-radius: 8px;
     }
     button {
-      background: #007bff;
-      color: white;
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
       border: none;
-      padding: 12px 20px;
-      font-size: 18px;
-      border-radius: 5px;
+      border-radius: 8px;
+      background: #27ae60;
+      color: white;
+      font-size: 16px;
       cursor: pointer;
     }
-    button:hover { background: #0056b3; }
-    .qr-section, .slip {
-      display: none;
-      margin-top: 20px;
+    button:hover {
+      background: #219150;
+    }
+    .qr-section {
+      text-align: center;
+      margin-top: 25px;
     }
     .slip {
-      border: 2px dashed #000;
-      padding: 15px;
-      text-align: left;
-      font-size: 16px;
+      display: none;
+      margin-top: 30px;
+      border: 2px dashed #333;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .slip h3 {
+      text-align: center;
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -56,70 +70,85 @@
 
   <div class="container">
     <h2>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h2>
-    <form id="regForm">
-      <input type="text" placeholder="नाम" id="name" required><br>
-      <input type="text" placeholder="शिक्षा" id="edu" required><br>
-      <input type="text" placeholder="विद्यालय / कॉलेज का नाम" id="school" required><br>
-      <select id="gender" required>
-        <option value="">लिंग चुनें</option>
-        <option>पुरुष</option>
-        <option>महिला</option>
-        <option>अन्य</option>
-      </select><br>
-      <input type="email" placeholder="ईमेल" id="email"><br>
-      <input type="tel" placeholder="मोबाइल नंबर" id="mobile" required><br>
-      <textarea id="address" placeholder="पता" required></textarea><br>
-      <button type="submit">सबमिट करें</button>
+    <form id="examForm">
+      <label>नाम:</label>
+      <input type="text" name="naam" required>
+
+      <label>शिक्षा:</label>
+      <input type="text" name="siksha" required>
+
+      <label>स्कूल / कॉलेज:</label>
+      <input type="text" name="school" required>
+
+      <label>लिंग:</label>
+      <select name="ling" required>
+        <option value="">चुनें</option>
+        <option value="पुरुष">पुरुष</option>
+        <option value="महिला">महिला</option>
+        <option value="अन्य">अन्य</option>
+      </select>
+
+      <label>ईमेल:</label>
+      <input type="email" name="email">
+
+      <label>मोबाइल नंबर:</label>
+      <input type="tel" name="mobile" required>
+
+      <label>पता:</label>
+      <textarea name="pataa" rows="2" required></textarea>
+
+      <div class="qr-section">
+        <p>कृपया ₹20 का भुगतान करें 👇</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=9798789203@ptyes&pn=Exam%20Fee&am=20&cu=INR" width="180" alt="QR Code">
+        <p>UPI ID: 9798789203@ptyes</p>
+
+        <label>लेन-देन संख्या (Transaction ID):</label>
+        <input type="text" name="txnid" required>
+      </div>
+
+      <button type="submit">जमा करें</button>
     </form>
 
-    <div class="qr-section" id="qrSection">
-      <h3>₹20 का भुगतान करें</h3>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=9798789203@ptyes&pn=Exam%20Registration&am=20&cu=INR" alt="QR Code">
-      <p>भुगतान के बाद नीचे "भुगतान पूर्ण हुआ" दबाएं 👇</p>
-      <button onclick="showSlip()">भुगतान पूर्ण हुआ</button>
-    </div>
-
     <div class="slip" id="slip">
-      <h3 style="text-align:center;">प्रवेश पत्र</h3>
-      <p><b>नाम:</b> <span id="sName"></span></p>
-      <p><b>शिक्षा:</b> <span id="sEdu"></span></p>
-      <p><b>विद्यालय/कॉलेज:</b> <span id="sSchool"></span></p>
-      <p><b>लिंग:</b> <span id="sGender"></span></p>
-      <p><b>मोबाइल:</b> <span id="sMobile"></span></p>
-      <p><b>पता:</b> <span id="sAddress"></span></p>
-      <hr>
-      <p><b>परीक्षा केंद्र:</b> JJ कॉलेज, झुमरी तेलैया, कोडरमा</p>
+      <h3>प्रवेश पत्र</h3>
+      <p><b>परीक्षा नाम:</b> हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</p>
       <p><b>परीक्षा तिथि:</b> 19/11/2025</p>
       <p><b>उपस्थिति समय:</b> 9:30 से 10:30 बजे तक</p>
       <p><b>परीक्षा समय:</b> 11:00 से 12:00 बजे तक</p>
+      <p><b>केंद्र:</b> JJ College, झुमरी तेलैया, कोडरमा</p>
       <hr>
-      <p>📞 संपर्क: +91 97987 89203 | +91 91421 30104 | +91 70047 03711</p>
-      <button onclick="window.print()">प्रिंट करें</button>
+      <div id="slipDetails"></div>
+      <p style="text-align:center; margin-top:10px;">(कृपया इस प्रवेश पत्र का प्रिंट आउट लेकर परीक्षा केंद्र पर आएं)</p>
     </div>
   </div>
 
   <script>
-    const form = document.getElementById('regForm');
-    const qr = document.getElementById('qrSection');
-    const slip = document.getElementById('slip');
+    const scriptURL = "https://script.google.com/macros/s/AKfycby4PyDKKa8-CaEQtD6H3_WMeACTaC7I4ZiLZOltWpJ1rbn5K_TPc5cMD2GLYnodJzEgwg/exec";
+    const form = document.getElementById("examForm");
+    const slip = document.getElementById("slip");
+    const slipDetails = document.getElementById("slipDetails");
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener("submit", e => {
       e.preventDefault();
-      form.style.display = 'none';
-      qr.style.display = 'block';
+      const formData = new FormData(form);
+      fetch(scriptURL, { method: "POST", body: formData })
+      .then(() => {
+        const data = Object.fromEntries(formData.entries());
+        form.style.display = "none";
+        slip.style.display = "block";
+        slipDetails.innerHTML = `
+          <p><b>नाम:</b> ${data.naam}</p>
+          <p><b>शिक्षा:</b> ${data.siksha}</p>
+          <p><b>विद्यालय / कॉलेज:</b> ${data.school}</p>
+          <p><b>लिंग:</b> ${data.ling}</p>
+          <p><b>ईमेल:</b> ${data.email}</p>
+          <p><b>मोबाइल नंबर:</b> ${data.mobile}</p>
+          <p><b>पता:</b> ${data.pataa}</p>
+          <p><b>Transaction ID:</b> ${data.txnid}</p>
+        `;
+      })
+      .catch(err => alert("Error: डेटा नहीं भेजा जा सका"));
     });
-
-    function showSlip() {
-      qr.style.display = 'none';
-      slip.style.display = 'block';
-
-      document.getElementById('sName').innerText = document.getElementById('name').value;
-      document.getElementById('sEdu').innerText = document.getElementById('edu').value;
-      document.getElementById('sSchool').innerText = document.getElementById('school').value;
-      document.getElementById('sGender').innerText = document.getElementById('gender').value;
-      document.getElementById('sMobile').innerText = document.getElementById('mobile').value;
-      document.getElementById('sAddress').innerText = document.getElementById('address').value;
-    }
   </script>
 
 </body>

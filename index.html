@@ -1,26 +1,45 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</title>
+<style>
+/* Same CSS as your current */
+</style>
+</head>
+<body>
+<div class="container">
+<h2>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h2>
+<div class="muted">📅 परीक्षा तिथि: 19/11/2025 · ⏰ उपस्थिति: 9:30–10:30 · परीक्षा: 11:00–12:00</div>
+
+<form id="examForm" class="no-print">
+<!-- form fields same as your code -->
+</form>
+
+<div id="slip" class="slip">
+<!-- slip html same as your code -->
+<div id="slipDetails"></div>
+</div>
+</div>
+
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbw3sDRkbQAE09TjUAFRr7NdaenurkA17Zhi_3NaYMOR/dev";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxbCvUPPlKN47svhxgNn_RVeaF8mChGjPyGmJez4SccjOultOdmRKP3yw4aibD2b4ynKA/exec";
 const form = document.getElementById('examForm');
 const slip = document.getElementById('slip');
 const slipDetails = document.getElementById('slipDetails');
 
-form.addEventListener('submit', async e => {
+form.addEventListener('submit', e => {
   e.preventDefault();
-
   const data = new FormData(form);
   const file = data.get('screenshot');
 
-  if (!file || !file.name) {
-    alert("⚠️ कृपया payment screenshot upload करें।");
-    return;
-  }
+  if(!file || !file.name) { alert("⚠️ कृपया payment screenshot upload करें।"); return; }
 
-  // FileReader से base64 conversion
   const reader = new FileReader();
   reader.onload = async () => {
-    const base64Screenshot = reader.result.split(',')[1]; // "data:image/png;base64,...."
-    
-    // JSON payload तैयार
+    const base64Screenshot = reader.result.split(',')[1];
+
     const payload = {
       name: data.get('name'),
       education: data.get('education'),
@@ -34,19 +53,14 @@ form.addEventListener('submit', async e => {
     };
 
     try {
-      const res = await fetch(scriptURL, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" }
-      });
+      const res = await fetch(scriptURL, { method:'POST', body:JSON.stringify(payload), headers:{'Content-Type':'application/json'} });
       const result = await res.json();
-      if(result.status !== "success") throw new Error(result.message || 'Error saving data');
+      if(result.status !== "success") throw new Error(result.message || "Error saving data");
     } catch(err) {
       alert("❌ डेटा Google शीट में नहीं जा सका, पर प्रवेश पत्र दिखाया जा रहा है।");
       console.error(err);
     }
 
-    // Slip दिखाएँ
     slipDetails.innerHTML = `
       <p><b>नाम:</b> ${escapeHtml(payload.name)}</p>
       <p><b>शिक्षा:</b> ${escapeHtml(payload.education)}</p>
@@ -56,22 +70,13 @@ form.addEventListener('submit', async e => {
       <p><b>पता:</b> ${escapeHtml(payload.address)}</p>
       <p><b>Transaction ID:</b> ${escapeHtml(payload.txnid)}</p>
     `;
-    form.style.display = 'none';
-    slip.style.display = 'block';
-    window.scrollTo(0,0);
+    form.style.display='none'; slip.style.display='block'; window.scrollTo(0,0);
   };
-  reader.readAsDataURL(file); // Base64 में पढ़ो
+  reader.readAsDataURL(file);
 });
 
-function resetPage(){
-  form.reset();
-  form.style.display = 'block';
-  slip.style.display = 'none';
-  slipDetails.innerHTML = '';
-}
-
-function escapeHtml(text){
-  if(!text) return '';
-  return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]));
-}
+function resetPage(){ form.reset(); form.style.display='block'; slip.style.display='none'; slipDetails.innerHTML=''; }
+function escapeHtml(text){ if(!text) return ''; return text.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); }
 </script>
+</body>
+</html>

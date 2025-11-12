@@ -24,19 +24,18 @@
     <h2>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h2>
     <div class="muted">📅 परीक्षा तिथि: 19/11/2025 · ⏰ उपस्थिति: 9:30–10:30 · परीक्षा: 11:00–12:00</div>
 
-    <!-- === Registration Form === -->
     <form id="examForm" class="no-print">
       <label>नाम:</label>
-      <input type="text" name="naam" required>
+      <input type="text" name="name" required>
 
       <label>शिक्षा:</label>
-      <input type="text" name="siksha" required>
+      <input type="text" name="education" required>
 
       <label>स्कूल / कॉलेज:</label>
       <input type="text" name="school" required>
 
       <label>लिंग:</label>
-      <select name="ling" required>
+      <select name="gender" required>
         <option value="">चुनें</option>
         <option value="पुरुष">पुरुष</option>
         <option value="महिला">महिला</option>
@@ -50,7 +49,7 @@
       <input type="tel" name="mobile" required>
 
       <label>पता:</label>
-      <textarea name="pataa" rows="2" required></textarea>
+      <textarea name="address" rows="2" required></textarea>
 
       <div class="muted" style="margin-top:15px;">
         ₹20 का भुगतान करें — <b>UPI ID: 9798789203@ptyes</b>
@@ -70,7 +69,6 @@
       <button type="submit">जमा करें और प्रवेश पत्र देखें</button>
     </form>
 
-    <!-- === Admit Card Slip === -->
     <div id="slip" class="slip">
       <h3>प्रवेश पत्र</h3>
       <p><b>परीक्षा नाम:</b> हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</p>
@@ -87,7 +85,7 @@
 
       <div class="no-print" style="margin-top:12px;">
         <button onclick="window.print()">🖨️ प्रिंट करें</button>
-        <button class="no-print" onclick="resetPage()">🔄 नया पंजीकरण</button>
+        <button onclick="resetPage()">🔄 नया पंजीकरण</button>
       </div>
     </div>
   </div>
@@ -109,20 +107,19 @@
       }
 
       try {
-        const res = await fetch(scriptURL, { method: 'POST', body: data });
-        if (!res.ok) throw new Error('Network error');
+        await fetch(scriptURL, { method: 'POST', body: data });
       } catch(err) {
-        alert("❌ डेटा Google शीट में नहीं जा सका, पर प्रवेश पत्र दिखाया जा रहा है।");
-        console.error(err);
+        console.error("Google Sheet में भेजने में error:", err);
       }
 
       slipDetails.innerHTML = `
-        <p><b>नाम:</b> ${escapeHtml(data.get('naam'))}</p>
-        <p><b>शिक्षा:</b> ${escapeHtml(data.get('siksha'))}</p>
+        <p><b>नाम:</b> ${escapeHtml(data.get('name'))}</p>
+        <p><b>शिक्षा:</b> ${escapeHtml(data.get('education'))}</p>
         <p><b>विद्यालय / कॉलेज:</b> ${escapeHtml(data.get('school'))}</p>
-        <p><b>लिंग:</b> ${escapeHtml(data.get('ling'))}</p>
+        <p><b>लिंग:</b> ${escapeHtml(data.get('gender'))}</p>
         <p><b>मोबाइल नंबर:</b> ${escapeHtml(data.get('mobile'))}</p>
-        <p><b>पता:</b> ${escapeHtml(data.get('pataa'))}</p>
+        <p><b>पता:</b> ${escapeHtml(data.get('address'))}</p>
+        <p><b>Transaction ID:</b> ${escapeHtml(data.get('txnid'))}</p>
       `;
       form.style.display = 'none';
       slip.style.display = 'block';

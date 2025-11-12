@@ -24,6 +24,7 @@
     <h2>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h2>
     <div class="muted">📅 परीक्षा तिथि: 19/11/2025 · ⏰ उपस्थिति: 9:30–10:30 · परीक्षा: 11:00–12:00</div>
 
+    <!-- Registration Form -->
     <form id="examForm" class="no-print">
       <label>नाम:</label>
       <input type="text" name="name" required>
@@ -69,6 +70,7 @@
       <button type="submit">जमा करें और प्रवेश पत्र देखें</button>
     </form>
 
+    <!-- Admit Card Slip -->
     <div id="slip" class="slip">
       <h3>प्रवेश पत्र</h3>
       <p><b>परीक्षा नाम:</b> हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</p>
@@ -85,13 +87,13 @@
 
       <div class="no-print" style="margin-top:12px;">
         <button onclick="window.print()">🖨️ प्रिंट करें</button>
-        <button onclick="resetPage()">🔄 नया पंजीकरण</button>
+        <button class="no-print" onclick="resetPage()">🔄 नया पंजीकरण</button>
       </div>
     </div>
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwz2rprjKPFvJpX2WxUtXSYPpJ-zVUC0D_wyQYlgg5zxvng9GQRlkDDIhaNYMeKqNsHsg/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbw4RwuJL00JpI7MBYIo0dii0aSlYeBKEydjKHDBmgBOml6px65lcQD7VMu_rQ7vHBz61A/exec";
 
     const form = document.getElementById('examForm');
     const slip = document.getElementById('slip');
@@ -107,9 +109,12 @@
       }
 
       try {
-        await fetch(scriptURL, { method: 'POST', body: data });
+        const res = await fetch(scriptURL, { method: 'POST', body: data });
+        const result = await res.json();
+        if(result.status !== "success") throw new Error(result.message || 'Error saving data');
       } catch(err) {
-        console.error("Google Sheet में भेजने में error:", err);
+        alert("❌ डेटा Google शीट में नहीं जा सका, पर प्रवेश पत्र दिखाया जा रहा है।");
+        console.error(err);
       }
 
       slipDetails.innerHTML = `

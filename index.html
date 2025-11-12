@@ -9,24 +9,12 @@
     .container { max-width: 700px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
     h2 { text-align: center; color: #1a237e; margin: 0 0 10px; }
     label { display:block; margin-top:12px; font-weight:600; }
-    input, select, textarea {
-      width:100%; padding:10px; margin-top:6px;
-      border:1px solid #d0d6df; border-radius:8px;
-      box-sizing:border-box; font-size:15px;
-    }
-    button {
-      margin-top:18px; width:100%; padding:12px;
-      border:none; border-radius:8px;
-      background:#1565c0; color:#fff; font-size:16px;
-      cursor:pointer;
-    }
+    input, select, textarea { width:100%; padding:10px; margin-top:6px; border:1px solid #d0d6df; border-radius:8px; box-sizing:border-box; font-size:15px; }
+    button { margin-top:18px; width:100%; padding:12px; border:none; border-radius:8px; background:#1565c0; color:#fff; font-size:16px; cursor:pointer; }
     button:hover { background:#0d47a1; }
     .muted { color:#546e7a; font-size:14px; text-align:center; }
     .note { background:#fff8e1; padding:10px; border-radius:8px; margin-top:10px; color:#7a4d00; }
-    .slip {
-      display:none; margin-top:24px; border:2px dashed #1a237e;
-      padding:18px; border-radius:10px; background:#fff; color:#111;
-    }
+    .slip { display:none; margin-top:24px; border:2px dashed #1a237e; padding:18px; border-radius:10px; background:#fff; color:#111; }
     .slip h3 { text-align:center; margin:0 0 8px; color:#1a237e; }
     @media print { .no-print { display:none } .container { box-shadow:none; border-radius:0 } }
   </style>
@@ -74,6 +62,9 @@
       <label style="margin-top:12px;">लेन-देन संख्या (Transaction ID)</label>
       <input type="text" name="txnid" required>
 
+      <label>Payment Screenshot (Upload):</label>
+      <input type="file" name="screenshot" accept="image/*" required>
+
       <div class="note">⚠️ केवल सत्यापित भुगतान पर ही प्रवेश पत्र मान्य माना जाएगा।</div>
 
       <button type="submit">जमा करें और प्रवेश पत्र देखें</button>
@@ -102,8 +93,7 @@
   </div>
 
   <script>
-    // 🟢 अपने Google Apps Script URL से बदलो ↓
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzBDU4XIDs76dokk7izYeZSN3-wZQPkBLu-9SRicleFBJWYVGvEN3L_TWQeXXgM9LUU/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxTO4o5RuRHZLPlGhFiRDzrlWqrRw-NceesY6ZEwH8Q74hcWCsjD9FDswIuSGGhAwthug/exec";
 
     const form = document.getElementById('examForm');
     const slip = document.getElementById('slip');
@@ -111,28 +101,28 @@
 
     form.addEventListener('submit', async e => {
       e.preventDefault();
-      const data = Object.fromEntries(new FormData(form).entries());
+      const data = new FormData(form);
 
-      // === 1️⃣ Save data to Google Sheet ===
+      if (!data.get('screenshot').name) {
+        alert("⚠️ कृपया payment screenshot upload करें।");
+        return;
+      }
+
       try {
-        const res = await fetch(scriptURL, {
-          method: 'POST',
-          body: new FormData(form)
-        });
+        const res = await fetch(scriptURL, { method: 'POST', body: data });
         if (!res.ok) throw new Error('Network error');
       } catch(err) {
         alert("❌ डेटा Google शीट में नहीं जा सका, पर प्रवेश पत्र दिखाया जा रहा है।");
         console.error(err);
       }
 
-      // === 2️⃣ Show Admit Card ===
       slipDetails.innerHTML = `
-        <p><b>नाम:</b> ${escapeHtml(data.naam)}</p>
-        <p><b>शिक्षा:</b> ${escapeHtml(data.siksha)}</p>
-        <p><b>विद्यालय / कॉलेज:</b> ${escapeHtml(data.school)}</p>
-        <p><b>लिंग:</b> ${escapeHtml(data.ling)}</p>
-        <p><b>मोबाइल नंबर:</b> ${escapeHtml(data.mobile)}</p>
-        <p><b>पता:</b> ${escapeHtml(data.pataa)}</p>
+        <p><b>नाम:</b> ${escapeHtml(data.get('naam'))}</p>
+        <p><b>शिक्षा:</b> ${escapeHtml(data.get('siksha'))}</p>
+        <p><b>विद्यालय / कॉलेज:</b> ${escapeHtml(data.get('school'))}</p>
+        <p><b>लिंग:</b> ${escapeHtml(data.get('ling'))}</p>
+        <p><b>मोबाइल नंबर:</b> ${escapeHtml(data.get('mobile'))}</p>
+        <p><b>पता:</b> ${escapeHtml(data.get('pataa'))}</p>
       `;
       form.style.display = 'none';
       slip.style.display = 'block';
@@ -148,9 +138,7 @@
 
     function escapeHtml(text){
       if(!text) return '';
-      return text.replace(/[&<>"']/g, m => (
-        {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]
-      ));
+      return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]));
     }
   </script>
 </body>

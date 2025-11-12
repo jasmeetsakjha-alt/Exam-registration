@@ -1,122 +1,179 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</title>
-<style>
-body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; color: #333; }
-.container { max-width: 600px; margin: auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
-h2 { text-align: center; }
-label { display: block; margin: 10px 0 5px; }
-input, select, textarea { width: 100%; padding: 8px; margin-bottom: 10px; }
-button { padding: 10px 20px; background: #007BFF; color: white; border: none; cursor: pointer; }
-button:hover { background: #0056b3; }
-.slip { display: none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px; background: #fefefe; }
-.muted { color: #666; margin-bottom: 15px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; margin:0; }
+    .container { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow:0 0 10px rgba(0,0,0,0.13); }
+    .form-section { margin-bottom: 40px;}
+    h2, h3 { margin:0; text-align: center;}
+    label { display: block; margin-top: 10px; margin-bottom: 4px;}
+    input, select, textarea { width: 100%; padding: 8px; margin-bottom: 12px; border:1px solid #ccc; border-radius: 4px;}
+    .gender-row { display: flex; gap: 16px; align-items: center;}
+    .gender-row label { margin-bottom:0;}
+    .muted { color: #666; margin-bottom: 15px; }
+    button { padding: 10px 24px; background: #007BFF; color: white; border:none; border-radius:5px; cursor:pointer; font-size: 16px;}
+    button:hover { background: #0056b3;}
+    .slip-section { display:none; margin-top:20px;}
+    .admit-card { background: #fff; border: 1px solid #aaa; border-radius:7px; padding: 20px;}
+    .ac-logo { height: 50px; vertical-align:middle;}
+    .top-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+    .rules { font-size:13px; margin-top:12px; }
+    .rules li{margin-bottom:4px;}
+    .row-grid { display: grid; grid-template-columns: 120px 1fr;}
+    .row-grid .label {font-weight: bold;}
+    @media print {
+      .no-print { display:none; }
+      .admit-card, .form-section, .slip-section { box-shadow:none; }
+      body{background:#fff;}
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.4/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 <div class="container">
-<h2>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h2>
-<div class="muted">📅 परीक्षा तिथि: 19/11/2025 · ⏰ उपस्थिति: 9:30–10:30 · परीक्षा: 11:00–12:00</div>
-
-<form id="examForm" class="no-print">
-  <label>नाम: <input type="text" name="name" required></label>
-  <label>शिक्षा: <input type="text" name="education"></label>
-  <label>विद्यालय / कॉलेज: <input type="text" name="school"></label>
-  <label>लिंग:
-    <select name="gender">
-      <option value="">--Select--</option>
-      <option value="पुरुष">पुरुष</option>
-      <option value="महिला">महिला</option>
-      <option value="अन्य">अन्य</option>
-    </select>
-  </label>
-  <label>Email: <input type="email" name="email"></label>
-  <label>मोबाइल: <input type="tel" name="mobile" required></label>
-  <label>पता: <textarea name="address"></textarea></label>
-  <label>Transaction ID: <input type="text" name="txnid" required></label>
-  <label>Payment Screenshot: <input type="file" name="screenshot" accept="image/*" required></label>
-  <button type="submit">सबमिट करें</button>
-</form>
-
-<div id="slip" class="slip">
-  <h3>आपका प्रवेश पत्र</h3>
-  <div id="slipDetails"></div>
-  <button onclick="resetPage()">नया फॉर्म</button>
+  <div class="form-section no-print">
+    <h2>हमर बिरसा<br>सामान्य ज्ञान प्रतियोगिता 2025</h2>
+    <div class="muted">पंजीयन प्रपत्र</div>
+    <form id="regform" autocomplete="off">
+      <label>नाम: <input name="name" type="text" required></label>
+      <label>शिक्षा: <input name="education" type="text"></label>
+      <label>ट्रकूल/कॉलेज: <input name="school" type="text"></label>
+      <div class="gender-row" style="margin-bottom:12px;">
+        <span class="label">लिंग:</span>
+        <label><input type="radio" name="gender" value="पुरुष" required> पुरुष</label>
+        <label><input type="radio" name="gender" value="महिला"> महिला</label>
+        <label><input type="radio" name="gender" value="अन्य"> अन्य</label>
+      </div>
+      <label>ईमेल: <input name="email" type="email"></label>
+      <label>मोबाइल नंबर: <input name="mobile" type="tel" pattern="[0-9]{10}" required></label>
+      <label>पता: <textarea name="address"></textarea></label>
+      <label>Transaction ID: <input name="txnid" type="text" required pattern="[A-Za-z0-9]{10,20}" title="Valid Transaction ID 10-20 characters"></label>
+      <label>Payment Screenshot: <input type="file" name="screenshot" accept="image/*" required></label>
+      <div style="text-align:center;">
+        <button type="submit" id="submitBtn"><i class="fa-regular fa-paper-plane"></i> सबमिट करें</button>
+      </div>
+      <div id="formMsg" style="margin-top:8px;color:#c00;"></div>
+    </form>
+  </div>
+  <div class="slip-section" id="slipSection">
+     <div class="admit-card" id="admitCard">
+        <div class="top-row">
+          <img src="https://i.imgur.com/yb8DkZn.png" class="ac-logo"/>
+          <strong style="font-size:1.3em;">"हमर बिरसा"<br>सामान्य ज्ञान प्रतियोगिता<br>
+          अखिल भारतीय विद्यार्थी परिषद, कोडरमा</strong>
+          <img src="https://i.imgur.com/WVz9WIw.png" style="height:50px;"/>
+        </div>
+        <hr>
+        <h3>प्रवेश पत्र</h3>
+        <div class="row-grid" style="margin-top:16px;">
+          <div class="label">पंजीकरण संख्या :</div> <div id="ac_regid"></div>
+          <div class="label">नाम :</div> <div id="ac_name"></div>
+          <div class="label">मोबाइल नंबर :</div> <div id="ac_mobile"></div>
+          <div class="label">परीक्षा केंद्र :</div><div>जगन्नाथ जैन महाविद्यालय झुमरी तिलैया, कोडरमा</div>
+          <div class="label">परीक्षा विषय :</div><div>बिरसा मुंडा जीवनी</div>
+          <div class="label">परीक्षा तिथि :</div><div><b>19.11.2025</b></div>
+          <div class="label">उपस्थिति समय :</div><div><b>प्रात: 09:30 से 10:30 तक</b></div>
+          <div class="label">परीक्षा समय :</div><div><b>प्रात: 11 से 12 बजे</b></div>
+        </div>
+        <ol class="rules">
+         <li>यह प्रवेश-पत्र (Admit Card) अखिल भारतीय विद्यार्थी परिषद,कोडरमा द्वारा आयोजित सामान्य ज्ञान प्रतियोगिता हेतु मान्य है।</li>
+         <li>परीक्षार्थी को परीक्षा केंद्र पर प्रवेश-पत्र की मूल प्रति एवं पहचान पत्र (आधार कार्ड) लाना अनिवार्य है।</li>
+         <li>परीक्षा क्षेत्र में किसी भी प्रकार के इलेक्ट्रॉनिक उपकरण ले जाना वर्जित है।</li>
+         <li>परीक्षा में अनुचित साधनों का प्रयोग निषिद्ध है।</li>
+         <li>परीक्षा समाप्ति के तुरंत बाद प्रवेश-पत्र परीक्षा केंद्र में जमा करना होगा।</li>
+         <li>यह प्रवेश पत्र केवल एक बार मान्य होगा।</li>
+         <li>कोई भी विवाद होने पर परीक्षा आयोजक समिति का निर्णय सर्वमान्य होगा।</li>
+       </ol>
+     </div>
+     <div style="text-align:center; margin-top:14px;">
+        <button onclick="downloadPDF()">PDF डाउनलोड करें</button>
+        <button onclick="resetAll()">नया फॉर्म</button>
+     </div>
+   </div>
 </div>
-</div>
-
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbxbCvUPPlKN47svhxgNn_RVeaF8mChGjPyGmJez4SccjOultOdmRKP3yw4aibD2b4ynKA/exec";
-const form = document.getElementById('examForm');
-const slip = document.getElementById('slip');
-const slipDetails = document.getElementById('slipDetails');
+const scriptURL = "https://script.google.com/macros/s/AKfycbyj-5PuAPAYJgZVk4plYdNPtNyRCLVhiZm1_RFB2Ekfg8EpRUcel-BaEy2b9VncFR1IaA/exec";
+const regform = document.getElementById('regform');
+const slipSection = document.getElementById('slipSection');
+const admitCard = document.getElementById('admitCard');
+const formMsg = document.getElementById('formMsg');
 
-form.addEventListener('submit', e => {
+regform.addEventListener('submit', function(e) {
   e.preventDefault();
-  const data = new FormData(form);
-  const file = data.get('screenshot');
+  formMsg.textContent = "";
+  const fdata = new FormData(regform);
+  const file = fdata.get('screenshot');
+  const txnid = (fdata.get('txnid')||'').trim();
+  // Validations
+  if(!file || !file.name) { formMsg.textContent="⚠️ कृपया Payment Screenshot upload करें।"; return; }
+  if(!/^[A-Za-z0-9]{10,20}$/.test(txnid)) {
+    formMsg.textContent="❌ Transaction ID गलत है (Valid: 10-20 chars, only A-Za-z0-9)."; return;
+  }
+  if(!/^[0-9]{10}$/.test((fdata.get('mobile')||'').trim())) {
+    formMsg.textContent="❌ मोबाइल नंबर 10 अंकों का डालें।"; return;
+  }
 
-  if(!file || !file.name) { alert("⚠️ कृपया payment screenshot upload करें।"); return; }
+  formMsg.textContent="प्रोसेसिंग...";
+  document.getElementById('submitBtn').disabled = true;
 
   const reader = new FileReader();
   reader.onload = async () => {
-    const base64Screenshot = reader.result.split(',')[1];
-
     const payload = {
-      name: data.get('name'),
-      education: data.get('education'),
-      school: data.get('school'),
-      gender: data.get('gender'),
-      email: data.get('email'),
-      mobile: data.get('mobile'),
-      address: data.get('address'),
-      txnid: data.get('txnid'),
-      screenshot: base64Screenshot
+      name: fdata.get('name'),
+      education: fdata.get('education'),
+      school: fdata.get('school'),
+      gender: fdata.get('gender'),
+      email: fdata.get('email'),
+      mobile: fdata.get('mobile'),
+      address: fdata.get('address'),
+      txnid: txnid,
+      screenshot: reader.result.split(',')[1]
     };
 
     try {
-      const res = await fetch(scriptURL, { 
-        method:'POST', 
-        body:JSON.stringify(payload), 
-        headers:{'Content-Type':'application/json'} 
+      const res = await fetch(scriptURL, {
+        method:'POST',
+        body:JSON.stringify(payload),
+        headers:{'Content-Type':'application/json'}
       });
       const result = await res.json();
-      if(result.status !== "success") throw new Error(result.message || "Error saving data");
-    } catch(err) {
-      alert("❌ डेटा Google शीट में नहीं जा सका, पर प्रवेश पत्र दिखाया जा रहा है।");
-      console.error(err);
-    }
+      if(result.status !== "success") throw new Error(result.message || "Server Error");
 
-    slipDetails.innerHTML = `
-      <p><b>नाम:</b> ${escapeHtml(payload.name)}</p>
-      <p><b>शिक्षा:</b> ${escapeHtml(payload.education)}</p>
-      <p><b>विद्यालय / कॉलेज:</b> ${escapeHtml(payload.school)}</p>
-      <p><b>लिंग:</b> ${escapeHtml(payload.gender)}</p>
-      <p><b>मोबाइल नंबर:</b> ${escapeHtml(payload.mobile)}</p>
-      <p><b>पता:</b> ${escapeHtml(payload.address)}</p>
-      <p><b>Transaction ID:</b> ${escapeHtml(payload.txnid)}</p>
-    `;
-    form.style.display='none'; 
-    slip.style.display='block'; 
-    window.scrollTo(0,0);
+      fillAdmitCard(result, payload);
+    } catch(err) {
+      formMsg.textContent="❌ डेटा Google Sheet में नहीं गया लेकिन प्रवेश पत्र दिखाया जा रहा है।";
+      fillAdmitCard({}, payload);
+    }
   };
   reader.readAsDataURL(file);
-});
+  });
 
-function resetPage(){ 
-  form.reset(); 
-  form.style.display='block'; 
-  slip.style.display='none'; 
-  slipDetails.innerHTML=''; 
+function fillAdmitCard(result, payload){
+  document.getElementById('ac_regid').textContent = result.reg_id || payload.txnid;
+  document.getElementById('ac_name').textContent = payload.name;
+  document.getElementById('ac_mobile').textContent = payload.mobile;
+  slipSection.style.display = "block";
+  document.querySelector('.form-section').style.display = "none";
+  window.scrollTo(0,0);
+  formMsg.textContent = "";
 }
 
-function escapeHtml(text){ 
-  if(!text) return ''; 
-  return text.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m])); 
+function downloadPDF() {
+  var element = document.getElementById('admitCard');
+  var opt = {
+    margin:       [10,10,10,10],
+    filename:     'AdmitCard.pdf',
+    image:        { type: 'jpeg', quality: 0.99 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
 }
+function resetAll(){ location.reload(); }
 </script>
 </body>
 </html>

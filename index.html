@@ -1,147 +1,77 @@
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</title>
-  <style>
-    body { font-family: "Noto Sans Devanagari", sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }
-    .container { max-width: 700px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    h2 { text-align: center; color: #1a237e; margin: 0 0 10px; }
-    label { display:block; margin-top:12px; font-weight:600; }
-    input, select, textarea { width:100%; padding:10px; margin-top:6px; border:1px solid #d0d6df; border-radius:8px; box-sizing:border-box; font-size:15px; }
-    button { margin-top:18px; width:100%; padding:12px; border:none; border-radius:8px; background:#1565c0; color:#fff; font-size:16px; cursor:pointer; }
-    button:hover { background:#0d47a1; }
-    .muted { color:#546e7a; font-size:14px; text-align:center; }
-    .note { background:#fff8e1; padding:10px; border-radius:8px; margin-top:10px; color:#7a4d00; }
-    .slip { display:none; margin-top:24px; border:2px dashed #1a237e; padding:18px; border-radius:10px; background:#fff; color:#111; }
-    .slip h3 { text-align:center; margin:0 0 8px; color:#1a237e; }
-    @media print { .no-print { display:none } .container { box-shadow:none; border-radius:0 } }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2>हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</h2>
-    <div class="muted">📅 परीक्षा तिथि: 19/11/2025 · ⏰ उपस्थिति: 9:30–10:30 · परीक्षा: 11:00–12:00</div>
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbwzXnjhYM01zAgraWJSm3tb2CVfQh53md19ow95ZHhdEtQq4dirDBYXgKQUWC73-j0Hqg/exec";
+const form = document.getElementById('examForm');
+const slip = document.getElementById('slip');
+const slipDetails = document.getElementById('slipDetails');
 
-    <!-- Registration Form -->
-    <form id="examForm" class="no-print">
-      <label>नाम:</label>
-      <input type="text" name="name" required>
+form.addEventListener('submit', async e => {
+  e.preventDefault();
 
-      <label>शिक्षा:</label>
-      <input type="text" name="education" required>
+  const data = new FormData(form);
+  const file = data.get('screenshot');
 
-      <label>स्कूल / कॉलेज:</label>
-      <input type="text" name="school" required>
+  if (!file || !file.name) {
+    alert("⚠️ कृपया payment screenshot upload करें।");
+    return;
+  }
 
-      <label>लिंग:</label>
-      <select name="gender" required>
-        <option value="">चुनें</option>
-        <option value="पुरुष">पुरुष</option>
-        <option value="महिला">महिला</option>
-        <option value="अन्य">अन्य</option>
-      </select>
+  // FileReader से base64 conversion
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const base64Screenshot = reader.result.split(',')[1]; // "data:image/png;base64,...."
+    
+    // JSON payload तैयार
+    const payload = {
+      name: data.get('name'),
+      education: data.get('education'),
+      school: data.get('school'),
+      gender: data.get('gender'),
+      email: data.get('email'),
+      mobile: data.get('mobile'),
+      address: data.get('address'),
+      txnid: data.get('txnid'),
+      screenshot: base64Screenshot
+    };
 
-      <label>ईमेल (यदि हो):</label>
-      <input type="email" name="email">
-
-      <label>मोबाइल नंबर:</label>
-      <input type="tel" name="mobile" required>
-
-      <label>पता:</label>
-      <textarea name="address" rows="2" required></textarea>
-
-      <div class="muted" style="margin-top:15px;">
-        ₹20 का भुगतान करें — <b>UPI ID: 9798789203@ptyes</b>
-      </div>
-      <div style="text-align:center;margin-top:8px;">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=9798789203@ptyes&pn=Hamar%20Birsa%20Exam&am=20&cu=INR" width="160" alt="QR">
-      </div>
-
-      <label style="margin-top:12px;">लेन-देन संख्या (Transaction ID)</label>
-      <input type="text" name="txnid" required>
-
-      <label>Payment Screenshot (Upload):</label>
-      <input type="file" name="screenshot" accept="image/*" required>
-
-      <div class="note">⚠️ केवल सत्यापित भुगतान पर ही प्रवेश पत्र मान्य माना जाएगा।</div>
-
-      <button type="submit">जमा करें और प्रवेश पत्र देखें</button>
-    </form>
-
-    <!-- Admit Card Slip -->
-    <div id="slip" class="slip">
-      <h3>प्रवेश पत्र</h3>
-      <p><b>परीक्षा नाम:</b> हमर बिरसा सामान्य ज्ञान प्रतियोगिता 2025</p>
-      <p><b>केंद्र:</b> JJ College, झुमरी तिलैया, कोडरमा</p>
-      <p><b>परीक्षा तिथि:</b> 19 नवम्बर 2025</p>
-      <p><b>उपस्थिति:</b> 9:30–10:30</p>
-      <p><b>परीक्षा समय:</b> 11:00–12:00</p>
-      <hr>
-      <div id="slipDetails"></div>
-
-      <div style="margin-top:12px;font-size:13px" class="muted">
-        निर्देश: यह पर्ची अनिवार्य है — प्रिंट आउट और वैध पहचान पत्र साथ लाना आवश्यक है।
-      </div>
-
-      <div class="no-print" style="margin-top:12px;">
-        <button onclick="window.print()">🖨️ प्रिंट करें</button>
-        <button class="no-print" onclick="resetPage()">🔄 नया पंजीकरण</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbw4RwuJL00JpI7MBYIo0dii0aSlYeBKEydjKHDBmgBOml6px65lcQD7VMu_rQ7vHBz61A/exec";
-
-    const form = document.getElementById('examForm');
-    const slip = document.getElementById('slip');
-    const slipDetails = document.getElementById('slipDetails');
-
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      const data = new FormData(form);
-
-      if (!data.get('screenshot').name) {
-        alert("⚠️ कृपया payment screenshot upload करें।");
-        return;
-      }
-
-      try {
-        const res = await fetch(scriptURL, { method: 'POST', body: data });
-        const result = await res.json();
-        if(result.status !== "success") throw new Error(result.message || 'Error saving data');
-      } catch(err) {
-        alert("❌ डेटा Google शीट में नहीं जा सका, पर प्रवेश पत्र दिखाया जा रहा है।");
-        console.error(err);
-      }
-
-      slipDetails.innerHTML = `
-        <p><b>नाम:</b> ${escapeHtml(data.get('name'))}</p>
-        <p><b>शिक्षा:</b> ${escapeHtml(data.get('education'))}</p>
-        <p><b>विद्यालय / कॉलेज:</b> ${escapeHtml(data.get('school'))}</p>
-        <p><b>लिंग:</b> ${escapeHtml(data.get('gender'))}</p>
-        <p><b>मोबाइल नंबर:</b> ${escapeHtml(data.get('mobile'))}</p>
-        <p><b>पता:</b> ${escapeHtml(data.get('address'))}</p>
-        <p><b>Transaction ID:</b> ${escapeHtml(data.get('txnid'))}</p>
-      `;
-      form.style.display = 'none';
-      slip.style.display = 'block';
-      window.scrollTo(0, 0);
-    });
-
-    function resetPage(){
-      form.reset();
-      form.style.display = 'block';
-      slip.style.display = 'none';
-      slipDetails.innerHTML = '';
+    try {
+      const res = await fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" }
+      });
+      const result = await res.json();
+      if(result.status !== "success") throw new Error(result.message || 'Error saving data');
+    } catch(err) {
+      alert("❌ डेटा Google शीट में नहीं जा सका, पर प्रवेश पत्र दिखाया जा रहा है।");
+      console.error(err);
     }
 
-    function escapeHtml(text){
-      if(!text) return '';
-      return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]));
-    }
-  </script>
-</body>
-</html>
+    // Slip दिखाएँ
+    slipDetails.innerHTML = `
+      <p><b>नाम:</b> ${escapeHtml(payload.name)}</p>
+      <p><b>शिक्षा:</b> ${escapeHtml(payload.education)}</p>
+      <p><b>विद्यालय / कॉलेज:</b> ${escapeHtml(payload.school)}</p>
+      <p><b>लिंग:</b> ${escapeHtml(payload.gender)}</p>
+      <p><b>मोबाइल नंबर:</b> ${escapeHtml(payload.mobile)}</p>
+      <p><b>पता:</b> ${escapeHtml(payload.address)}</p>
+      <p><b>Transaction ID:</b> ${escapeHtml(payload.txnid)}</p>
+    `;
+    form.style.display = 'none';
+    slip.style.display = 'block';
+    window.scrollTo(0,0);
+  };
+  reader.readAsDataURL(file); // Base64 में पढ़ो
+});
+
+function resetPage(){
+  form.reset();
+  form.style.display = 'block';
+  slip.style.display = 'none';
+  slipDetails.innerHTML = '';
+}
+
+function escapeHtml(text){
+  if(!text) return '';
+  return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[m]));
+}
+</script>
